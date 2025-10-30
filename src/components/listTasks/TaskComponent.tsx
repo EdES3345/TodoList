@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react"
 
-import type { TaskType } from "../../types/TaskType"
+import type { TaskType } from "../../types/TaskType";
+import { InputCheckbox } from "../littleComponents/InputCheckbox";
+import { InputText } from "../littleComponents/InputText";
+import { Button } from "../littleComponents/Button";
 
 type propsType = {
     task: TaskType;
@@ -35,7 +38,7 @@ export function TaskComponent({task, taskList, setTasksList}: propsType) {
         )
     }, [checkState])
 
-    const deleteTask = () => {
+    const handledeleteTask = () => {
         setTasksList(
             taskList.filter((taskMap) => {
                 if (taskMap.id === task.id) {
@@ -47,10 +50,10 @@ export function TaskComponent({task, taskList, setTasksList}: propsType) {
     }
 
     return (
-        <li>
-            <input type="checkbox" checked={checkState} onChange={() => setCheckState(!checkState)} />
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-            <button onClick={deleteTask}>X</button>
+        <li className="flex items-center *:justify-center list-none w-full border-solid border border-gray-400 rounded-xl box-border px-3 py-4  gap-5">
+            <InputCheckbox checked={checkState} onChange={() => setCheckState(!checkState)} className="box-border m-0 size-7"/>
+            <InputText type="text" value={name} onChange={(e) => setName(e.target.value)} className=" w-9/12 box-border h-10"/>
+            <Button onClick={handledeleteTask} className="w-2/12 h-10">Supprimer</Button>
         </li>
     )
 }
