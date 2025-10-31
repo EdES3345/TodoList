@@ -9,7 +9,7 @@ export function InputCheckbox({ placeholder, onChange, className, checked}: Prop
     return <input 
             type="checkbox"
             placeholder={placeholder} 
-            className={"border-solid rounded-xl accent-blue-500 " + className}
+            className={`border-solid rounded-xl accent-blue-500 ${className}`}
             onChange={onChange}
             checked={checked}
             />

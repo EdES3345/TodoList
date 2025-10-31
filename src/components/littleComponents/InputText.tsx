@@ -10,7 +10,7 @@ export function InputText({type, placeholder, onChange, className, value}: Props
     return <input 
             type={type} 
             placeholder={placeholder} 
-            className={"border-solid rounded-xl border-gray-400 focus:border-blue-500 focus:outline-none px-3 " + className}
+            className={`border-solid rounded-xl border-gray-400 focus:border-blue-500 focus:outline-none px-3 ${className}`}
             onChange={onChange}
             value={value}
             />
