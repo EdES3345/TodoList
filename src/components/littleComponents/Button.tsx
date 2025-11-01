@@ -3,12 +3,15 @@ import { type PropsWithChildren } from "react";
 type PropsType = PropsWithChildren<{
     className?: string;
     onClick?: () => void
+    disabled?: boolean
 }>
 
-export function Button({className, onClick, children}: PropsType) {
+export function Button({className, onClick, disabled, children}: PropsType) {
     return <button 
-        className={`text-white bg-blue-500 hover:bg-gray-400 border-none rounded-xl hover:cursor-pointer ${className}`} 
-        onClick={onClick}>
+        className={`text-white bg-blue-500 hover:bg-blue-600 border-none rounded-xl hover:cursor-pointer disabled:bg-blue-200 disabled:cursor-not-allowed ${className}`} 
+        onClick={onClick}
+        disabled={disabled}
+        >
             {children}
         </button>
 }

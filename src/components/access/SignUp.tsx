@@ -1,17 +1,89 @@
-import { Link } from "react-router"
+import { useEffect, useState } from "react"
+import { Link } from "react-router";
 
 import { InputText } from "../littleComponents/InputText"
 import { Button } from "../littleComponents/Button"
+import { ButtonInformationBox, InformationBox } from "../littleComponents/InformationBox"
 
 export default function SignUp() {
+
+    const [inputId, setInputId] = useState("");
+    const [inputPassword, setInputPassword] = useState("")
+    const [maxLenghtInputId, setMaxLenghtInputId] = useState(false);
+    const [maxLenghtInputPassword, setMaxLenghtInputPassword] = useState(false);
+    const [statueFetch, setStatueFetch] = useState<boolean | undefined>();
+    const [activateButtonSubmit, setActivateButtonSubmit] = useState(false);
+
+    
+    const handleChangeId = (value: string) => {
+        if (value.length < 30) setInputId(value);
+        if(value.length < 29) setMaxLenghtInputId(false);
+        else setMaxLenghtInputId(true);
+    }
+
+    const handleChangePassword = (value: string) => {
+        if (value.length < 30) setInputPassword(value);
+        if(value.length < 29) setMaxLenghtInputPassword(false);
+        else setMaxLenghtInputPassword(true);
+    }
+    
+     const handleCreateAccount = async () => {
+        setActivateButtonSubmit(false);
+        await fetch("http://localhost:5174/api/user", {
+            method: "POST",
+            headers : {
+                "Content-Type": "application/json"
+            },
+            body : JSON.stringify({
+                userId: inputId,
+                password: inputPassword
+            })
+        })
+        .then((res) => {
+            setStatueFetch(res.ok);
+            setInputId("");
+            setInputPassword("");
+        })
+        .catch(() => setStatueFetch(false));
+        setActivateButtonSubmit(true);
+        setMaxLenghtInputId(false);
+        setMaxLenghtInputPassword(false);
+    }
+
+    useEffect(() => {
+        if((inputId.length && inputPassword.length) === 0) setActivateButtonSubmit(false);
+        else setActivateButtonSubmit(true);
+    }, [inputId, inputPassword])
+
     return (
         <section className="flex flex-col items-center">
             <h1>TodoList</h1>
             <h2>Créer un compte</h2>
-            <div className="flex flex-col items-center gap-2 max-w-100">
-                <InputText type="text" placeholder="Choisisez votre identifiant" className="w-full p-2 "/>
-                <InputText type="password" placeholder="Créez votre mots de passe" className="w-full p-2" />
-                <Link to={"/login"}><Button className="w-full p-2">Créer votre compte</Button></Link>
+            <div className="flex flex-col items-center gap-2 w-52">
+                <label htmlFor="id" className="text-sm">Identifiant</label>
+                <InputText id="id" type="text" placeholder="Identifiant (30 caractéres max)" value={inputId} onChange={(e) => handleChangeId(e.target.value)} className="w-full p-2 " />
+                {maxLenghtInputId && <InformationBox styleBox="info">Taille maximale atteinte pour votre identifiant (30 caractéres max)</InformationBox>}
+                
+                <label htmlFor="password" className="text-sm">Mot de passe</label>
+                <InputText id="password" type="password" placeholder="Mot de passe (30 caractéres max)" value={inputPassword} onChange={(e) => handleChangePassword(e.target.value)} className="w-full p-2" />
+                {maxLenghtInputPassword && <InformationBox styleBox="info">Taille maximale atteinte pour votre mot de passe (30 caractéres max)</InformationBox>}
+                
+                {statueFetch && <InformationBox styleBox="success">
+                    Compte créé avec succès
+                    <div className="flex gap-2">
+                        <Link to="/login">
+                            <ButtonInformationBox styleBox="success" >Se connecter</ButtonInformationBox>
+                        </Link>
+                        <ButtonInformationBox styleBox="success" onClick={()=> setStatueFetch(undefined)}>OK</ButtonInformationBox>
+                    </div>
+                </InformationBox>}
+
+                {(statueFetch !== undefined && statueFetch === false) && <InformationBox styleBox="error" className="flex flex-col items-center" >
+                    Erreur lors de la création du compte
+                    <ButtonInformationBox styleBox="error" onClick={()=> setStatueFetch(undefined)}>OK</ButtonInformationBox>
+                </InformationBox>}
+
+                <Button onClick={handleCreateAccount} className="w-full p-2" disabled={!activateButtonSubmit}>Créer votre compte</Button>
             </div>
         </section>
     )
