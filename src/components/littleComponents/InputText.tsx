@@ -1,5 +1,5 @@
 type PropsType = {
-    type: "text" | "password";
+    type?: "text" | "password";
     placeholder?: string;
     className?: string;
     onChange?: ((e: React.ChangeEvent<HTMLInputElement>) => void) | (() => void);
@@ -7,7 +7,7 @@ type PropsType = {
     id?: string
 }
 
-export function InputText({type, placeholder, onChange, className, value, id}: PropsType) {
+export function InputText({type = "text", placeholder, onChange, className, value, id}: PropsType) {
     return <input 
             id={id}
             type={type} 
