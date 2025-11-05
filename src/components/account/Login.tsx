@@ -23,7 +23,7 @@ export default function Login() {
     
      const handleAccessAccount = async () => {
         setActivateButtonSubmit(false);
-        await fetch("http://localhost:5174/api/users/login", {
+        await fetch("/api/users/login", {
             method: "POST",
             headers : {
                 "Content-Type": "application/json",

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import { InputText } from "../littleComponents/InputText"
 import { Button } from "../littleComponents/Button"
 import { ButtonInformationBox, InformationBox } from "../littleComponents/InformationBox"
 
 export default function SignUp() {
+
+    const navigate = useNavigate();
 
     const [inputId, setInputId] = useState("");
     const [inputPassword, setInputPassword] = useState("")
@@ -14,6 +16,12 @@ export default function SignUp() {
     const [statueFetch, setStatueFetch] = useState<"ok" | "error" | "same_id" | undefined>();
     const [activateButtonSubmit, setActivateButtonSubmit] = useState(false);
 
+    useEffect(() => {
+        if(localStorage.getItem("session_id_setup") === "true") {
+            navigate("/list")
+        }
+    }, [])
+        
     useEffect(() => {
         if(statueFetch === "same_id") setStatueFetch(undefined)
     }, [inputId])
@@ -32,7 +40,7 @@ export default function SignUp() {
     
      const handleCreateAccount = async () => {
         setActivateButtonSubmit(false);
-        await fetch("http://localhost:5174/api/users/signup", {
+        await fetch("/api/users/signup", {
             method: "POST",
             headers : {
                 "Content-Type": "application/json"

@@ -8,7 +8,7 @@ type PropsType = PropsWithChildren<{
 
 export function Button({className, onClick, disabled, children}: PropsType) {
     return <button 
-        className={`text-white bg-blue-500 hover:bg-blue-600 border-none rounded-xl hover:cursor-pointer disabled:bg-blue-200 disabled:cursor-not-allowed ${className}`} 
+        className={`text-white bg-blue-500 hover:bg-blue-600 border-none rounded-full hover:cursor-pointer disabled:bg-blue-200 disabled:cursor-not-allowed ${className}`} 
         onClick={onClick}
         disabled={disabled}
         >

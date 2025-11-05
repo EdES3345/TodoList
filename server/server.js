@@ -24,7 +24,18 @@ server.use(cors({
 }))
 server.use(cookieParser())
 
+const cleanTableSesssionId = () => {
+    db.all("SELECT session_id, expire_time FROM session_id ", [], (error, rows) => {
+        rows.map(row => {
+            if(row.expire_time < Date.now()) {
+                db.run("DELETE FROM session_id WHERE session_id = ?", [row.session_id])
+            }
+        })
+    })
+}
+
 server.get("/api/users/tasks", (req, res) => {
+    
     if(req.cookies.session_id) {
         db.get("SELECT session_id, user_id, expire_time FROM session_id WHERE session_id = ?", [req.cookies.session_id], (error, rows) => {
             if(rows && rows.expire_time > Date.now()) {
@@ -41,9 +52,11 @@ server.get("/api/users/tasks", (req, res) => {
     } else {
         res.sendStatus(401);
     }
+    cleanTableSesssionId();
 })
 
 server.post("/api/users/tasks", (req, res) => {
+    
     if(req.cookies.session_id) {
         db.get("SELECT session_id, user_id, expire_time FROM session_id WHERE session_id = ?", [req.cookies.session_id], (error, rows) => {
             if(rows && rows.expire_time > Date.now()) {
@@ -53,12 +66,13 @@ server.post("/api/users/tasks", (req, res) => {
                 res.clearCookie("session_id", {
                     httpOnly: true
                 })
-                res.sendStatus(401);
+                res.sendStatus(401);    
             }
         })
     } else {
         res.sendStatus(401);
     }
+    cleanTableSesssionId();
 })
 
 server.post("/api/users/login", (req, res) => {
@@ -80,6 +94,7 @@ server.post("/api/users/login", (req, res) => {
         res.sendStatus(403);
     }
     })
+    cleanTableSesssionId();
 })
 
 server.post("/api/users/signup", (req, res) => {
