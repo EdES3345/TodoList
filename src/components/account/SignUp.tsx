@@ -85,6 +85,7 @@ export default function SignUp() {
                 {maxLenghtInputPassword && <InformationBox styleBox="info">Taille maximale atteinte pour votre mot de passe (30 caractéres max)</InformationBox>}
                 
                 <Button onClick={handleCreateAccount} className="w-full p-2" disabled={!activateButtonSubmit}>Créer votre compte</Button>
+                <Link to="/login"><Button className="w-full p-2" >Se connecter</Button></Link>
                 
                 {statueFetch === "ok" && <InformationBox styleBox="success">
                     Compte créé avec succès

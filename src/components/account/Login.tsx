@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { InputText } from "../littleComponents/InputText"
 import { Button } from "../littleComponents/Button"
 import { ButtonInformationBox, InformationBox } from "../littleComponents/InformationBox"
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export default function Login() {
 
@@ -63,6 +63,7 @@ export default function Login() {
                 <InputText id="password" type="password" placeholder="Mot de passe" value={inputPassword} onChange={(e) => setInputPassword(e.target.value)} className="w-full p-2" />
                 
                 <Button onClick={handleAccessAccount} className="w-full p-2" disabled={!activateButtonSubmit}>Se connecter</Button>
+                <Link to="/signup"><Button className="w-full p-2" >Créer un compte</Button></Link>
                 
                 {statueFetch === "bad_authentication" && <InformationBox styleBox="error" className="flex flex-col items-center" >
                     Mauvais identifiant ou mot de passe
@@ -74,7 +75,7 @@ export default function Login() {
                     <ButtonInformationBox styleBox="error" onClick={()=> setStatueFetch(undefined)}>OK</ButtonInformationBox>
                 </InformationBox>}
             </div>
-            <p className="text-center">Pour créer un compte, vous devez disposer d'un lien d'activation.</p>
+            {/* <p className="text-center">Pour créer un compte, vous devez disposer d'un lien d'activation.</p> */}
         </section>
     )
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 import type { TaskType } from "../../types/TaskType";
 import { TaskComponent } from "./TaskComponent";
@@ -42,7 +42,14 @@ export function TasksListComponent() {
         })
     }
 
-    const disconnect = () => {
+    const disconnect = async () => {
+        await fetch("api/users/session", {
+            method: "DELETE",
+            credentials: "include"
+        }).then(async () => {
+            localStorage.setItem("session_id_setup", "false")
+            navigate("/login")
+        })
     }           
 
     useEffect(() => {
@@ -78,8 +85,8 @@ export function TasksListComponent() {
         <nav className="flex place-content-between items-center border-b mb-10 border-gray-400 px-5">
             <h1>TodoList</h1>
             <div className="flex gap-2">
-                <Link to="/account"><Button className="px-3 h-10">Mon compte</Button></Link>
-                <Button className="px-3 h-10 bg-red-500 hover:bg-red-500">Deconnexion</Button>
+                {/* <Link to="/account"><Button className="px-3 h-10">Mon compte</Button></Link> */}
+                <Button className="px-3 h-10 bg-red-500 hover:bg-red-500" onClick={disconnect}>Deconnexion</Button>
             </div>
         </nav>
         {!errorServer ? <section className="w-full flex flex-col items-center">
