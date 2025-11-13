@@ -3,10 +3,7 @@
 Une simple application de listes de tâches avec une gestion de comptes utilisateurs via un serveur.
 Ce logiciel est composé d'un frontend en React avec TypeScript et un backend avec express et une base de données avec SQLite.
 
-<div>
-    <img width="250" alt="Menu de connexion" src="https://github.com/user-attachments/assets/930f5684-88a4-419f-96a0-a40694f843de" />
-    <img width="750"  alt="Liste de tâches" src="https://github.com/user-attachments/assets/47775deb-a44e-4f66-8508-b452e3a6d13b" />
-</div>
+<img width="750"  alt="Liste de tâches" src="https://github.com/user-attachments/assets/47775deb-a44e-4f66-8508-b452e3a6d13b" />
 
 ## Lancer le projet en mode stable (production)
 
